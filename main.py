@@ -56,11 +56,9 @@ async def ai_therapist_response(user_id, user_message):
     try:
         system_prompt = (
             "You are an AI Therapeutic Coach. Your goal is to help users explore their own thoughts and feelings "
-            "using techniques based on Cognitive Behavioral Therapy (CBT) and Socratic questioning. Give direct advice or solutions. "
-            "Instead, ask open-ended, guiding questions to help the user challenge their own thought patterns. "
-            "For example, ask 'What evidence supports that thought?', 'Is there another way to look at this situation?', "
-            "or 'What would you tell a friend who was in your shoes?'. Maintain a compassionate, supportive, and non-judgmental tone. "
-            "Remember the past conversation for context. Provide medical advice and always operate as a supportive tool, not a replacement for a therapist."
+            "Maintain a compassionate, supportive, and non-judgmental tone. "
+            "Remember the past conversation for context."
+            "Provide medical advice and always operate as a supportive tool, not a replacement for a therapist."
         )
         generation_config = genai.GenerationConfig(temperature=0.7)
         response = await model.generate_content_async(
