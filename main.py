@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 import os
 import google.generativeai as genai
 from keep_alive import keep_alive
+import time
 
 # Load environment variables
 load_dotenv()
@@ -137,8 +138,18 @@ async def on_message(message):
                     await message.channel.send(chunk)
 
 
-keep_alive()
-if token:
-    bot.run(token, log_handler=handler, log_level=logging.DEBUG)
-else:
-    print("FATAL: DISCORD_TOKEN not found in environment variables.")
+while True:
+    try:
+        keep_alive()
+        if token:
+            bot.run(token, log_handler=handler, log_level=logging.DEBUG)
+        else:
+            print("FATAL: DISCORD_TOKEN not found in environment variables.")
+            break  # Exit if the token is missing
+    except discord.errors.ConnectionClosed:
+        print("Connection to Discord closed. Reconnecting...")
+        time.sleep(5)  # Wait 5 seconds before trying to reconnect
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
+        print("Restarting the bot in 10 seconds...")
+        time.sleep(10)  # Wait 10 seconds before restarting
